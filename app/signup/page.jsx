@@ -15,6 +15,9 @@ const SignupForm = () => {
   const handleSubmit =async (event) => {
     event.preventDefault();
     // Add your signup logic here, e.g., sending data to a server
+
+
+
     if(password!=confirmPassword){
         let conpass = document.getElementById('confirmPassword')
         conpass.value="";
@@ -32,6 +35,7 @@ const SignupForm = () => {
         })
     })
     if(response.ok){
+        console.log("form submitted success fully")
         router.push('/login')
     }else{
         console.log("registration error")
