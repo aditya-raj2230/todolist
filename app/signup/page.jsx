@@ -2,15 +2,41 @@
 // components/SignupForm.js
 
 import { useState } from 'react';
+import {useRouter} from 'next/navigation'
 
 const SignupForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword,setConfirmPassword]=useState('')
 
-  const handleSubmit = (event) => {
+  const router = useRouter();
+
+  const handleSubmit =async (event) => {
     event.preventDefault();
     // Add your signup logic here, e.g., sending data to a server
+    if(password!=confirmPassword){
+        let conpass = document.getElementById('confirmPassword')
+        conpass.value="";
+        return console.log("password do no match")
+    }
+    const response = await fetch('/api/user',{
+        method:'POST',
+        header:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+            name:name,
+            email:email,
+            password:password
+        })
+    })
+    if(response.ok){
+        router.push('/login')
+    }else{
+        console.log("registration error")
+    }
+
     console.log('Name:', name);
     console.log('Email:', email);
     console.log('Password:', password);
@@ -47,6 +73,16 @@ const SignupForm = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Confirm Password:</label>
+          <input id="confirmPassword"
+            className="form-control"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
