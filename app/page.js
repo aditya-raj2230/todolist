@@ -1,6 +1,8 @@
+'use client'
 import prisma from "@/lib/prisma";
 import Post from './components/Post'
 import Link from 'next/link'
+import { useState } from "react";
 
 async function getPosts(){
   const posts = await prisma.post.findMany({
@@ -21,6 +23,8 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1>FEED</h1>
+      <Link href='/login'>login</Link>
+      <Link href='/signup'>signup </Link>
       <Link href='/add-post'>Add Post</Link>
       {
         posts.map((post)=>{
